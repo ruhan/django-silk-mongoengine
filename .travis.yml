@@ -1,0 +1,19 @@
+language: python
+python: 
+    - "2.7"
+    - "3.4"
+env:
+    - DJANGO_VERSION=1.6.8
+    - DJANGO_VERSION=1.7.7
+    - DJANGO_VERSION=1.8
+
+install:
+    - pip install -q Django==$DJANGO_VERSION
+    - pip install -r requirements.txt
+
+script:
+    - cd project
+    - python manage.py syncdb --noinput
+    - python manage.py migrate --noinput || true # Only for 1.7/1.8
+    - python manage.py test --noinput
+    - cd -
